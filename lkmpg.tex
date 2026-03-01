@@ -500,7 +500,8 @@ the last time you ran \sh|make menuconfig| or something similar.
 
 \subsection{The \_\_init and \_\_exit Macros}
 \label{sec:init_n_exit}
-The \cpp|__init| macro causes the init function to be discarded and its memory freed once the init function finishes for built-in drivers, but not loadable modules.
+The \cpp|__init| macro causes the init function to be discarded and its memory freed once the init function finishes for built-in drivers.
+For loadable modules, \cpp|__init| still places the function into an init-only section, \cpp|do_free_init| may still be observable during module loading even without \cpp|__init|.
 If you think about when the init function is invoked, this makes perfect sense.
 
 There is also an \cpp|__initdata| which works similarly to \cpp|__init| but for init variables rather than functions.

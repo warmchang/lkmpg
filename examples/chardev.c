@@ -67,6 +67,11 @@ static int __init chardev_init(void)
 #else
     cls = class_create(THIS_MODULE, DEVICE_NAME);
 #endif
+    if (IS_ERR(cls)) {
+        pr_err("Failed to create class for device\n");
+        unregister_chrdev(major, DEVICE_NAME);
+        return PTR_ERR(cls);
+    }
     device_create(cls, NULL, MKDEV(major, 0), NULL, DEVICE_NAME);
 
     pr_info("Device created on /dev/%s\n", DEVICE_NAME);
